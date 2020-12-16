@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -30,12 +31,13 @@ module.exports = {
   output: {
     filename: '[name].[hash].js',
     path: path.resolve(__dirname, 'build'),
-    publicPath: '',
+    publicPath: '/',
   },
   watch: true,
   devServer: {
     port: 8080,
     contentBase: path.resolve(__dirname, 'src'),
+    historyApiFallback: true,
   },
   mode: development ? 'development' : 'production',
   devtool: 'source-map',
@@ -78,6 +80,7 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js'],
     alias: {
       '@components': path.resolve(__dirname, 'src', 'components'),
+      '@pages': path.resolve(__dirname, 'src', 'pages'),
     },
   },
   plugins: [

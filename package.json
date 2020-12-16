@@ -1,5 +1,5 @@
 {
-  "name": "react-boilerplate",
+  "name": "photogallery",
   "version": "1.0.0",
   "description": "elfsight-test",
   "main": "src/index.js",
@@ -13,13 +13,16 @@
     "lint": "eslint ./src/**"
   },
   "dependencies": {
+    "axios": "^0.21.0",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.10.1",
     "@types/react": "^16.9.37",
     "@types/react-dom": "^16.9.8",
+    "@types/react-router-dom": "^5.1.6",
     "@typescript-eslint/eslint-plugin": "^3.3.0",
     "@typescript-eslint/parser": "^3.3.0",
     "clean-webpack-plugin": "^3.0.0",

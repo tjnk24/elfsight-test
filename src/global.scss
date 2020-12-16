@@ -18,12 +18,7 @@ body {
 }
 
 a {
-  color: var(--primary-color);
   text-decoration: none;
-
-  &:hover {
-    color: #666;
-  }
 }
 
 ul {

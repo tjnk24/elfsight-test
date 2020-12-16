@@ -1,0 +1,60 @@
+.sidebar {
+  position: relative;
+  background-color: #1f1d28;
+  color: #dfdde8;
+  width: 235px;
+  min-width: 235px;
+  height: 100vh;
+  -webkit-box-shadow: 10px 0px 19px -13px rgba(0,0,0,0.75);
+  -moz-box-shadow: 10px 0px 19px -13px rgba(0,0,0,0.75);
+  box-shadow: 10px 0px 19px -13px rgba(0,0,0,0.75);
+
+  a {
+    &:visited {
+      color: #c2c0cc;
+    }
+  }
+
+  &__top {
+    height: 37.5%;
+    padding: 18px;
+
+    a {
+      &:hover {
+        color: #93929a;
+      }
+    }
+  }
+
+  &__bottom {
+
+    span {
+      display: block;
+      font-size: 1.5rem;
+      margin: 0 0 12px 18px;
+    }
+
+    ul {
+      li {
+        width: 100%;
+
+        .nav-link {
+          width: 100%;
+          display: block;
+          color: #c2c0cc;
+          font-size: 1.1rem;
+          padding: 7px 32px;
+
+          &:hover {
+            background-color: #19181e;
+            transition: background-color .1s ease-in-out;
+          }
+
+          &--active {
+            background-color: #19181e;
+          }
+        }
+      }
+    }
+  }
+}

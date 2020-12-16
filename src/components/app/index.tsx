@@ -1,21 +1,28 @@
-import React from 'react';
+import React, { FC } from 'react';
+import {
+  Redirect,
+  Route,
+  Switch,
+} from 'react-router-dom';
+import Sidebar from '@components/sidebar';
+import Albums from '@pages/albums';
 
 import './style.scss';
+import AlbumPhotos from '@pages/photos';
 
-const App = () => (
+const App: FC = () => (
   <div className="app">
-    <div className="sidebar">
-      <div className="sidebar__top">
-        <h2>Photogallery</h2>
-      </div>
-      <div className="sidebar__bottom">
-        <span>users</span>
-        <ul>
-          <li>Lorem, ipsum dolor.</li>
-          <li>user 2</li>
-          <li>user 3</li>
-        </ul>
-      </div>
+    <Sidebar />
+    <div className="page-container">
+      <Switch>
+        <Route exact path="/users" />
+        <Route exact path="/">
+          <Redirect to="/users" />
+        </Route>
+        <Route path="/users/:username/:albumId" component={AlbumPhotos} />
+        <Route path="/users/:username/" component={Albums} />
+        <Redirect to="/" />
+      </Switch>
     </div>
   </div>
 );

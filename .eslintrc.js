@@ -5,6 +5,7 @@ module.exports = {
     },
     "extends": [
         "plugin:react/recommended",
+        "plugin:@typescript-eslint/recommended",
         "airbnb"
     ],
     "parser": "@typescript-eslint/parser",
@@ -20,10 +21,13 @@ module.exports = {
         "@typescript-eslint"
     ],
     "rules": {
+        'no-unused-vars': 'off',
         'import/no-dynamic-require': 'off',
         'import/no-unresolved': 'off',
         'import/extensions': 'off',
         'global-require': 'off',
+        'react/prop-types': 'off',
+        'react/jsx-props-no-spreading': 'off',
         'react/jsx-filename-extension': [
             'error',
             {
