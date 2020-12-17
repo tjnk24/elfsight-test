@@ -1,7 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import Preloader from '@components/preloader';
+import { getAlbums, getPhotos } from '@utils/index';
 import { AlbumsProps, AlbumWithPhotos } from '../types';
 import { AlbumsType } from './types';
 
@@ -49,7 +50,7 @@ const Albums: FC<AlbumsProps> = ({ location, match }) => {
     const parsedDataArray: AlbumsType[] = dataArray.map((item) => {
       const { id, title } = item;
 
-      promiseArray.push(Axios.get(`https://jsonplaceholder.typicode.com/photos?albumId=${id}`));
+      promiseArray.push(getPhotos(id));
 
       return {
         id,
@@ -82,8 +83,7 @@ const Albums: FC<AlbumsProps> = ({ location, match }) => {
     setAlbums(null);
 
     if (userId) {
-      Axios
-        .get(`https://jsonplaceholder.typicode.com/albums?&userId=${userId}`)
+      getAlbums(userId)
         .then(async (response) => {
           setAlbums(await parseResult(response.data));
         });

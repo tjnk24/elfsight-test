@@ -1,7 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import Axios from 'axios';
+
 import Preloader from '@components/preloader';
+import { getUsers } from '@utils/index';
 import { User } from './types';
 
 import './style.scss';
@@ -36,11 +37,9 @@ const Sidebar: FC = () => {
   );
 
   useEffect(() => {
-    Axios
-      .get('https://jsonplaceholder.typicode.com/users?&_limit=4')
-      .then((response) => {
-        setUsers(parseResult(response.data));
-      });
+    getUsers().then((response) => {
+      setUsers(parseResult(response.data));
+    });
   }, []);
 
   return (
