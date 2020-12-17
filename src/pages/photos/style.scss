@@ -1,27 +1,44 @@
-.albums-wrapper {
+.photos-wrapper {
   width: 100%;
   display: flex;
   align-items: center;
   position: relative;
-  padding: 70px 40px;
+  padding: 150px 40px;
 }
 
-.page-title {
+.page-top {
   position: absolute;
   top: 20px;
+
+  h2 {
+    margin-bottom: 10px;
+  }
+
+  button {
+    border: none;
+    background-color: #49445f;
+    color: #fff;
+    font-size: 20px;
+    padding: 6px 15px;
+    border-radius: 8px;
+
+    &:hover {
+      cursor: pointer;
+      background-color: #312d40;
+      transition: background-color .1s ease-in-out;
+    }
+  }
 }
 
-.albums {
-  // display: grid;
-  // grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  // grid-gap: 1.5vw;
+.photos {
+  height: 100%;
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
 }
 
-.album-block {
-  width: 150px;
+.photo-block {
+  width: 200px;
   margin-right: 20px;
   margin-bottom: 20px;
   -webkit-box-shadow: 0px 0px 16px -8px rgba(0,0,0,0.75);
@@ -35,40 +52,20 @@
     transition: box-shadow .1s ease-in-out;
   }
 
-  a {
+  button {
+    display: flex;
+    flex-direction: column;
     height: 100%;
-    display: block;
+    border: none;
+    cursor: pointer;
   }
 
-  &__thumbnail {
-    position: relative;
-    width: 150px;
-    height: 150px;
-
-    img {
-      position: absolute;
-      z-index: 0;
-      width: 150px;
-
-    }
-
-    span {
-      position: absolute;
-      z-index: 1;
-      bottom: 5px;
-      right: 5px;
-      width: 20px;
-      height: 20px;
-      font-size: 12px;
-      color: #fff;
-      background-color: rgba(0,0,0,0.3);
-      text-align: center;
-      line-height: 1.9;
-      border-radius: 10px;
-    }
+  img {
+    width: 200px;
+    height: 200px;
   }
 
-  &__info {
+  &__title {
     padding: 5px;
     font-size: 0.8rem;
     line-height: 16px;

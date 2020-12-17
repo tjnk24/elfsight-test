@@ -1,30 +1,50 @@
-import Preloader from '@components/preloader';
-import Axios, { AxiosResponse } from 'axios';
 import React, { FC, useEffect, useState } from 'react';
-import { AlbumsProps } from '../types';
+import { Link } from 'react-router-dom';
+import Axios, { AxiosResponse } from 'axios';
+import Preloader from '@components/preloader';
+import { AlbumsProps, AlbumWithPhotos } from '../types';
 import { AlbumsType } from './types';
 
 import './style.scss';
 
 const Albums: FC<AlbumsProps> = ({ location, match }) => {
   const [albums, setAlbums] = useState<AlbumsType[]>(null);
+  const [albumsWithPhotos, setAlbumsWithPhotos] = useState<AlbumWithPhotos[][]>(null);
+
+  const { userId } = match.params;
+
+  console.log('Albums', location.state);
 
   const mapAlbums = (albumsArray: AlbumsType[]) => albumsArray.map(
     (album: AlbumsType) => (
       <div className="album-block" key={album.id}>
-        <div className="album-block__thumbnail">
-          <img src={album.thumbnailUrl} alt="album thumbnail" />
-          <span>{album.photosAmount}</span>
-        </div>
-        <div className="album-block__info">
-          {album.title}
-        </div>
+        <Link
+          to={{
+            pathname: `/users/${match.params.userId}/${album.id}`,
+            state: {
+              userId,
+              // username,
+              title: album.title,
+              photos: albumsWithPhotos[album.id],
+            },
+          }}
+        >
+          <div className="album-block__thumbnail">
+            <img src={album.thumbnailUrl} alt="album thumbnail" />
+            <span>{album.photosAmount}</span>
+          </div>
+          <div className="album-block__info">
+            {album.title}
+          </div>
+        </Link>
       </div>
     ),
   );
 
   const parseResult = async (dataArray: []) => {
     const promiseArray: Promise<AxiosResponse>[] = [];
+
+    const albumsWithPhotosArray: AlbumWithPhotos[][] = [];
 
     const parsedDataArray: AlbumsType[] = dataArray.map((item) => {
       const { id, title } = item;
@@ -47,8 +67,12 @@ const Albums: FC<AlbumsProps> = ({ location, match }) => {
             photosAmount: value.data.length,
           };
 
+          albumsWithPhotosArray.push(value.data);
+
           return true;
         });
+
+        setAlbumsWithPhotos(albumsWithPhotosArray);
       });
 
     return parsedDataArray;
@@ -56,22 +80,20 @@ const Albums: FC<AlbumsProps> = ({ location, match }) => {
 
   useEffect(() => {
     setAlbums(null);
-    const { username } = match.params;
-    const { userId } = location.state;
 
-    if (username) {
+    if (userId) {
       Axios
         .get(`https://jsonplaceholder.typicode.com/albums?&userId=${userId}`)
         .then(async (response) => {
           setAlbums(await parseResult(response.data));
         });
     }
-  }, [match.params.username]);
+  }, [match.params.userId]);
 
   return (
-    <>
+    <div className="albums-wrapper">
       <h2 className="page-title">
-        {location.state.username}
+        {/* {username} */}
         &apos;s photoalbums
       </h2>
       {
@@ -81,7 +103,7 @@ const Albums: FC<AlbumsProps> = ({ location, match }) => {
         </div>
       ) : <Preloader />
     }
-    </>
+    </div>
   );
 };
 

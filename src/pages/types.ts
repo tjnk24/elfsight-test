@@ -1,9 +1,17 @@
 import { RouteComponentProps } from 'react-router-dom';
 
+export type AlbumWithPhotos = {
+  id: number;
+  albumId: number;
+  thumbnailUrl: string;
+  title: string;
+  url: string;
+}
+
 export type AlbumsProps = RouteComponentProps & {
   match: {
     params: {
-      username: string;
+      userId: string;
       albumId: string;
     }
   };
@@ -11,6 +19,8 @@ export type AlbumsProps = RouteComponentProps & {
     state: {
       username: string;
       userId: number;
+      title: string;
+      photos: AlbumWithPhotos[];
     }
   }
 };

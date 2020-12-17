@@ -14,10 +14,9 @@ const Sidebar: FC = () => {
       <li key={user.id}>
         <NavLink
           to={{
-            pathname: `/users/${user.name.replace(/\s/g, '')}`,
+            pathname: `/users/${user.id}`,
             state: {
               username: user.name,
-              userId: user.id,
             },
           }}
           className="nav-link"
