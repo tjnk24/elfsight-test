@@ -21,6 +21,7 @@ module.exports = {
         "@typescript-eslint"
     ],
     "rules": {
+        'jsx-a11y/no-static-element-interactions': 'off',
         'no-unused-vars': 'off',
         'import/no-dynamic-require': 'off',
         'import/no-unresolved': 'off',

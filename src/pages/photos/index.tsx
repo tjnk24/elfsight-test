@@ -1,53 +1,54 @@
-import React, { FC, useEffect } from 'react';
-import { AlbumsProps, AlbumWithPhotos } from '@pages/types';
+import React, { FC, useEffect, useState } from 'react';
+import { AlbumPageProps, PhotosPageProps, PhotosType } from '@pages/types';
 import Preloader from '@components/preloader';
+import { getPhotos } from '@common/utils';
 
 import './style.scss';
 
-const AlbumPhotos: FC<AlbumsProps> = ({ history, location, match }) => {
-  const {
-    username,
-    title,
-    photos,
-  } = location.state;
+const PhotosPage: FC<PhotosPageProps> = ({
+  history,
+  location,
+  match,
+  modalHandler,
+}) => {
+  const { userId, albumId } = match.params;
 
-  const { albumId, userId } = match.params;
+  const [photosArray, setPhotosArray] = useState(null);
 
   useEffect(() => {
-    console.log('AlbumPhotos', userId, albumId);
+    if (location.state?.photos) {
+      setPhotosArray(location.state.photos);
+    } else {
+      const trimmedId = albumId.replace('albumId', '');
+
+      getPhotos(trimmedId)
+        .then((response) => setPhotosArray(response.data));
+    }
   }, []);
 
-  const mapPhotos = (photosArray: AlbumWithPhotos[]) => photosArray.map(
-    (item) => {
-      console.log(item);
-
-      return (
-        <div className="photo-block" key={item.id}>
-          <button
-            type="button"
-            // onClick={() => modalHandler({
-            //   currentId: item.id,
-            //   currentUrl: item.url,
-            //   photos: photosArray,
-            // })}
-          >
-            <img src={item.thumbnailUrl} alt="thumbnail" />
-            <div className="photo-block__title">{item.title}</div>
-          </button>
-        </div>
-      );
-    },
+  const mapPhotos = (itemsArray: PhotosType[]) => itemsArray.map(
+    (item, index) => (
+      <div className="photo-block" key={item.id}>
+        <button
+          type="button"
+          onClick={() => modalHandler(index, itemsArray)}
+        >
+          <img src={item.thumbnailUrl} alt="thumbnail" />
+          <div className="photo-block__title">{item.title}</div>
+        </button>
+      </div>
+    ),
   );
 
   const backHandler = () => {
-    history.push(`/users/${match.params.userId}`, {});
+    history.push(`/users/${userId}`);
   };
 
   return (
     <div className="photos-wrapper">
       <div className="page-top">
         <h2>
-          {/* {title} */}
+          Photos
         </h2>
         <button
           type="button"
@@ -56,15 +57,15 @@ const AlbumPhotos: FC<AlbumsProps> = ({ history, location, match }) => {
           Back
         </button>
       </div>
-      {/* {
-        photos ? (
+      {
+        photosArray ? (
           <div className="photos">
-            { mapPhotos(photos) }
+            { mapPhotos(photosArray) }
           </div>
         ) : <Preloader />
-      } */}
+      }
     </div>
   );
 };
 
-export default AlbumPhotos;
+export default PhotosPage;

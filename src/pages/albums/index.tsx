@@ -2,29 +2,26 @@ import React, { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AxiosResponse } from 'axios';
 import Preloader from '@components/preloader';
-import { getAlbums, getPhotos } from '@utils/index';
-import { AlbumsProps, AlbumWithPhotos } from '../types';
+import { getAlbums, getPhotos } from '@common/utils';
+import { AlbumPageProps, PhotosType } from '../types';
 import { AlbumsType } from './types';
 
 import './style.scss';
 
-const Albums: FC<AlbumsProps> = ({ location, match }) => {
-  const [albums, setAlbums] = useState<AlbumsType[]>(null);
-  const [albumsWithPhotos, setAlbumsWithPhotos] = useState<AlbumWithPhotos[][]>(null);
-
+const AlbumsPage: FC<AlbumPageProps> = ({ match }) => {
   const { userId } = match.params;
 
-  console.log('Albums', location.state);
+  const [albums, setAlbums] = useState<AlbumsType[]>(null);
+  const [albumsWithPhotos, setAlbumsWithPhotos] = useState<PhotosType[][]>(null);
 
   const mapAlbums = (albumsArray: AlbumsType[]) => albumsArray.map(
     (album: AlbumsType) => (
       <div className="album-block" key={album.id}>
         <Link
           to={{
-            pathname: `/users/${match.params.userId}/${album.id}`,
+            pathname: `/users/${userId}/albumId${album.id}`,
             state: {
               userId,
-              // username,
               title: album.title,
               photos: albumsWithPhotos[album.id],
             },
@@ -45,7 +42,7 @@ const Albums: FC<AlbumsProps> = ({ location, match }) => {
   const parseResult = async (dataArray: []) => {
     const promiseArray: Promise<AxiosResponse>[] = [];
 
-    const albumsWithPhotosArray: AlbumWithPhotos[][] = [];
+    const albumsWithPhotosArray: PhotosType[][] = [];
 
     const parsedDataArray: AlbumsType[] = dataArray.map((item) => {
       const { id, title } = item;
@@ -82,19 +79,20 @@ const Albums: FC<AlbumsProps> = ({ location, match }) => {
   useEffect(() => {
     setAlbums(null);
 
-    if (userId) {
-      getAlbums(userId)
+    const trimmedId = userId.replace('userId', '');
+
+    if (trimmedId) {
+      getAlbums(trimmedId)
         .then(async (response) => {
           setAlbums(await parseResult(response.data));
         });
     }
-  }, [match.params.userId]);
+  }, [userId]);
 
   return (
     <div className="albums-wrapper">
       <h2 className="page-title">
-        {/* {username} */}
-        &apos;s photoalbums
+        Albums
       </h2>
       {
       albums ? (
@@ -107,4 +105,4 @@ const Albums: FC<AlbumsProps> = ({ location, match }) => {
   );
 };
 
-export default Albums;
+export default AlbumsPage;

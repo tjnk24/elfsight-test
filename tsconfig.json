@@ -12,7 +12,8 @@
         "paths": {
             "@components/*": ["src/components/*"],
             "@pages/*": ["src/pages/*"],
-            "@utils/*": ["src/utils/*"],
+            "@common/*": ["src/common/*"],
+            "@store/*": ["src/store/*"],
         }
     }
 }

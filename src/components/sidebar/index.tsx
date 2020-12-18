@@ -2,22 +2,22 @@ import React, { FC, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import Preloader from '@components/preloader';
-import { getUsers } from '@utils/index';
-import { User } from './types';
+import { getUsers } from '@common/utils';
+import { IUser } from '@common/types';
 
 import './style.scss';
 
 const Sidebar: FC = () => {
-  const [users, setUsers] = useState<User[]>(null);
+  const [users, setUsers] = useState<IUser[]>(null);
 
-  const mapUsers = (usersArray: User[]) => usersArray.map(
-    (user: User) => (
+  const mapUsers = (usersArray: IUser[]) => usersArray.map(
+    (user: IUser) => (
       <li key={user.id}>
         <NavLink
           to={{
-            pathname: `/users/${user.id}`,
+            pathname: `/users/userId${user.id}`,
             state: {
-              username: user.name,
+              userId: user.id,
             },
           }}
           className="nav-link"
