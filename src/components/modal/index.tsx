@@ -10,7 +10,9 @@ const Modal: FC<ModalProps> = ({ photos, currentId, closeHandler }) => {
   const changePhoto = (changeParam: number) => {
     const newCurrent = currentPhotoId + changeParam;
 
-    setCurrentPhotoId(newCurrent);
+    if (newCurrent >= 0 && newCurrent < photos.length) {
+      setCurrentPhotoId(newCurrent);
+    }
   };
 
   useEffect(() => {
@@ -42,6 +44,7 @@ const Modal: FC<ModalProps> = ({ photos, currentId, closeHandler }) => {
         <button
           type="button"
           onClick={() => changePhoto(-1)}
+          style={{ display: currentPhotoId !== 0 ? 'block' : 'none' }}
         >
           { BackIcon }
         </button>
@@ -54,6 +57,7 @@ const Modal: FC<ModalProps> = ({ photos, currentId, closeHandler }) => {
         <button
           type="button"
           onClick={() => changePhoto(1)}
+          style={{ display: currentPhotoId !== photos.length - 1 ? 'block' : 'none' }}
         >
           { NextIcon }
         </button>
