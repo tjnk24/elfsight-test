@@ -6,7 +6,6 @@
  - TypeScript
  - Eslint
  - SCSS
- - ReactBootstrap
 
 Шаги запуска:
 
